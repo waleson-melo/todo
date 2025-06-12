@@ -23,57 +23,30 @@ public class TodosController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<TodoItemDTO>>> GetTodos()
     {
-        var todoItems = await _context.TodoItems.ToListAsync();
-
-        return Ok(_mapper.Map<IEnumerable<TodoItemDTO>>(todoItems));
+        throw new NotImplementedException("This method is not implemented yet.");
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<TodoItemDTO>> GetTodoItem(int id)
     {
-        var todoItem = await _context.TodoItems.FindAsync(id);
-
-        if (todoItem == null)
-            return NotFound();
-
-        return _mapper.Map<TodoItemDTO>(todoItem);
+        throw new NotImplementedException("This method is not implemented yet.");
     }
 
     [HttpPost]
     public async Task<ActionResult<TodoItemDTO>> CreateTodoItem(CreateTodoItemDTO dto)
     {
-        var todoItem = _mapper.Map<TodoItem>(dto);
-        _context.TodoItems.Add(todoItem);
-        await _context.SaveChangesAsync();
-
-        var item = _mapper.Map<TodoItemDTO>(todoItem);
-
-        return CreatedAtAction(nameof(GetTodoItem), new { id = item.Id }, item);
+        throw new NotImplementedException("This method is not implemented yet.");
     }
 
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateTodoItem(int id, UpdateTodoItemDTO item)
     {
-        var existingItem = await _context.TodoItems.FindAsync(id);
-        if (existingItem == null)
-            return NotFound();
-
-        _mapper.Map(item, existingItem);
-        await _context.SaveChangesAsync();
-
-        return NoContent();
+        throw new NotImplementedException("This method is not implemented yet.");
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteTodoItem(int id)
     {
-        var todoItem = await _context.TodoItems.FindAsync(id);
-        if (todoItem == null)
-            return NotFound();
-
-        _context.TodoItems.Remove(todoItem);
-        await _context.SaveChangesAsync();
-
-        return NoContent();
+        throw new NotImplementedException("This method is not implemented yet.");
     }
 }

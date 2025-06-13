@@ -23,30 +23,57 @@ public class TodosController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<TodoItemDTO>>> GetTodos()
     {
-        throw new NotImplementedException("This method is not implemented yet.");
+        var todoItems = await _context.TodoItems.ToListAsync();
+
+        return Ok(_mapper.Map<IEnumerable<TodoItemDTO>>(todoItems));
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<TodoItemDTO>> GetTodoItem(int id)
     {
-        throw new NotImplementedException("This method is not implemented yet.");
+        var todoItem = await _context.TodoItems.FindAsync(id);
+
+        if (todoItem == null)
+            return NotFound();
+
+        return _mapper.Map<TodoItemDTO>(todoItem);
     }
 
     [HttpPost]
     public async Task<ActionResult<TodoItemDTO>> CreateTodoItem(CreateTodoItemDTO dto)
     {
-        throw new NotImplementedException("This method is not implemented yet.");
+        var todoItem = _mapper.Map<TodoItem>(dto);
+        _context.TodoItems.Add(todoItem);
+        await _context.SaveChangesAsync();
+
+        var item = _mapper.Map<TodoItemDTO>(todoItem);
+
+        return CreatedAtAction(nameof(GetTodoItem), new { id = item.Id }, item);
     }
 
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateTodoItem(int id, UpdateTodoItemDTO item)
     {
-        throw new NotImplementedException("This method is not implemented yet.");
+        var existingItem = await _context.TodoItems.FindAsync(id);
+        if (existingItem == null)
+            return NotFound();
+
+        _mapper.Map(item, existingItem);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteTodoItem(int id)
     {
-        throw new NotImplementedException("This method is not implemented yet.");
+        var todoItem = await _context.TodoItems.FindAsync(id);
+        if (todoItem == null)
+            return NotFound();
+
+        _context.TodoItems.Remove(todoItem);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
     }
 }
